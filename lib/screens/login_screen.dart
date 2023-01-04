@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (res == "success") {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        MaterialPageRoute(builder: (context) => HomeScreen()),
       );
     } else {
       showSnackBar(context, res);

@@ -52,7 +52,16 @@ class MyApp extends StatelessWidget {
                   weblayout: WebScreenLayout(),
                   mobilelayout: MobileScreenLayout(),
                 );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('${snapshot.error}'),
+                );
               }
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
             }
             return const LoginScreen();
           },
