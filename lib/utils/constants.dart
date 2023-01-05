@@ -1,5 +1,6 @@
 //Firestore Collection Names
 const USERS = "Users";
+const POSTS = "Posts";
 const PROFILE_PICS = "ProfilePics";
 
 //Route Names

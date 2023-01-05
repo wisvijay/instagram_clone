@@ -1,8 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:instagram_clone/resources/firestore_methods.dart';
+import 'package:provider/provider.dart';
 
 import '../dialog/showpopup_dialog.dart';
+import '../provider/user_provider.dart';
 import '../utils/utils.dart';
 import '../utils/color.dart';
 import '../utils/spaces.dart';
@@ -55,6 +58,44 @@ class _AddPostState extends State<AddPost> {
     );
   }
 
+  void postImage(String uid, String username, String profImage) async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      String res = await FireStoreMethods().uploadPost(
+        _descriptionController.text,
+        file!,
+        uid,
+        username,
+        profImage,
+      );
+      setState(() {
+        isLoading = false;
+      });
+      if (res == "success") {
+        showSnackBar(
+          context,
+          'Posted!',
+        );
+        Navigator.of(context).pop();
+      } else {
+        showSnackBar(
+          context,
+          res,
+        );
+      }
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      showSnackBar(
+        context,
+        e.toString(),
+      );
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -64,6 +105,7 @@ class _AddPostState extends State<AddPost> {
 
   @override
   Widget build(BuildContext context) {
+    final UserProvider userProvider = Provider.of<UserProvider>(context);
     return isLoading
         ? const Center(child: CircularProgressIndicator())
         : Scaffold(
@@ -73,48 +115,54 @@ class _AddPostState extends State<AddPost> {
               actions: isShowAction
                   ? [
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () => postImage(
+                          userProvider.getUser.uid,
+                          userProvider.getUser.username,
+                          userProvider.getUser.photoUrl,
+                        ),
                         icon: const Icon(Icons.check),
                       ),
                     ]
                   : [],
             ),
-            body: file == null
-                ? Center(
-                    child: IconButton(
-                      onPressed: onFileUpload,
-                      icon: const Icon(Icons.file_upload_outlined),
-                    ),
-                  )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      kVerticalSpaceRegular,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+            body: isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : file == null
+                    ? Center(
+                        child: IconButton(
+                          onPressed: onFileUpload,
+                          icon: const Icon(Icons.file_upload_outlined),
+                        ),
+                      )
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          CircleAvatar(
-                            foregroundImage: MemoryImage(file!),
-                            radius: 55,
-                            backgroundColor: Colors.grey[900],
-                          ),
-                          SizedBox(
-                            width: kScreenWidth(context) * 0.65,
-                            child: TextField(
-                              controller: _descriptionController,
-                              decoration: const InputDecoration(
-                                hintText: "Write a caption...",
-                                border: InputBorder.none,
+                          kVerticalSpaceRegular,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CircleAvatar(
+                                foregroundImage: MemoryImage(file!),
+                                radius: 55,
+                                backgroundColor: Colors.grey[900],
                               ),
-                              maxLines: 6,
-                            ),
+                              SizedBox(
+                                width: kScreenWidth(context) * 0.65,
+                                child: TextField(
+                                  controller: _descriptionController,
+                                  decoration: const InputDecoration(
+                                    hintText: "Write a caption...",
+                                    border: InputBorder.none,
+                                  ),
+                                  maxLines: 6,
+                                ),
+                              ),
+                            ],
                           ),
+                          Divider(),
                         ],
                       ),
-                      Divider(),
-                    ],
-                  ),
           );
   }
 }
