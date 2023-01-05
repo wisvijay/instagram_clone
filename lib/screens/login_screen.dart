@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:instagram_clone/resources/auth_methods.dart';
-import 'package:instagram_clone/screens/home_screen.dart';
-import 'package:instagram_clone/screens/signup_screen.dart';
-import 'package:instagram_clone/utils/color.dart';
-import 'package:instagram_clone/utils/spaces.dart';
-import 'package:instagram_clone/utils/utils.dart';
-import 'package:instagram_clone/widgets/text_field_input.dart';
+
+import '../resources/auth_methods.dart';
+import '../responsive/mobile_screen_layout.dart';
+import '../responsive/responsive_layout_screen.dart';
+import '../responsive/web_screen_layout.dart';
+import '../utils/color.dart';
+import '../utils/spaces.dart';
+import '../utils/utils.dart';
+import '../widgets/text_field_input.dart';
+import 'signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -28,9 +31,14 @@ class _LoginScreenState extends State<LoginScreen> {
         .loginUser(_emailController.text, _passwordController.text);
 
     if (res == "success") {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => HomeScreen()),
-      );
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => const ResponsiveLayoutScreen(
+              weblayout: WebScreenLayout(),
+              mobilelayout: MobileScreenLayout(),
+            ),
+          ),
+          (route) => false);
     } else {
       showSnackBar(context, res);
     }

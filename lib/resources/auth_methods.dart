@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:instagram_clone/model/users.dart' as model;
-import 'package:instagram_clone/resources/storage_methods.dart';
+
+import '../model/users.dart' as model;
+import '../resources/storage_methods.dart';
+import '../utils/constants.dart';
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -12,13 +14,14 @@ class AuthMethods {
     User currentUser = _auth.currentUser!;
 
     DocumentSnapshot documentSnapshot =
-        await _fireStore.collection('users').doc(currentUser.uid).get();
+        await _fireStore.collection(USERS).doc(currentUser.uid).get();
 
     return model.User.fromSnapshot(documentSnapshot);
   }
 
   Future<String> signupUser({
     required String userName,
+    required String fullName,
     required String email,
     required String password,
     required String bio,
@@ -27,6 +30,7 @@ class AuthMethods {
     var res = 'Some error occured';
     try {
       if (userName.isNotEmpty ||
+          fullName.isNotEmpty ||
           email.isNotEmpty ||
           password.isNotEmpty ||
           bio.isNotEmpty ||
@@ -34,21 +38,24 @@ class AuthMethods {
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
         String photoUrl = await StorageMethods()
-            .uploadImageToStorage('profilePics', file, false);
+            .uploadImageToStorage(PROFILE_PICS, file, false);
+
         model.User _users = model.User(
-          userName: userName,
-          password: password,
+          username: userName,
+          fullname: fullName,
+          uid: cred.user!.uid,
           email: email,
           bio: bio,
           photoUrl: photoUrl,
           following: [],
           followers: [],
         );
+
         await _fireStore
-            .collection('Users')
+            .collection(USERS)
             .doc(cred.user!.uid)
             .set(_users.toJson());
-        res = 'User creation success';
+        res = 'success';
       } else {
         res = 'Please enter all the fields';
       }
@@ -78,5 +85,9 @@ class AuthMethods {
     }
 
     return res;
+  }
+
+  Future<void> signOut() async {
+    await _auth.signOut();
   }
 }

@@ -1,13 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:instagram_clone/screens/login_screen.dart';
-import 'package:instagram_clone/utils/color.dart';
-import 'package:instagram_clone/utils/utils.dart';
 
+import '../responsive/mobile_screen_layout.dart';
+import '../responsive/responsive_layout_screen.dart';
+import '../responsive/web_screen_layout.dart';
 import '../resources/auth_methods.dart';
+import '../utils/color.dart';
+import '../utils/utils.dart';
 import '../utils/spaces.dart';
 import '../widgets/text_field_input.dart';
+import 'login_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -18,6 +21,7 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _fullnameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
@@ -30,22 +34,29 @@ class _SignupScreenState extends State<SignupScreen> {
     });
     String res = await AuthMethods().signupUser(
       userName: _usernameController.text,
+      fullName: _fullnameController.text,
       email: _emailController.text,
       password: _passwordController.text,
       bio: _bioController.text,
       file: image!,
     );
+
     if (res == "success") {
-      setState(() {
-        isLoading = false;
-      });
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (context) => const ResponsiveLayoutScreen(
+            mobilelayout: MobileScreenLayout(),
+            weblayout: WebScreenLayout(),
+          ),
+        ),
+        (route) => false,
+      );
     } else {
-      setState(() {
-        isLoading = false;
-      });
+      showSnackBar(context, res);
     }
-    // ignore: use_build_context_synchronously
-    showSnackBar(context, res);
+    setState(() {
+      isLoading = false;
+    });
   }
 
   selectImage() async {
@@ -59,6 +70,7 @@ class _SignupScreenState extends State<SignupScreen> {
   void dispose() {
     super.dispose();
     _usernameController.dispose();
+    _fullnameController.dispose();
     _passwordController.dispose();
     _emailController.dispose();
     _bioController.dispose();
@@ -84,13 +96,11 @@ class _SignupScreenState extends State<SignupScreen> {
                       ? CircleAvatar(
                           backgroundImage: MemoryImage(image!),
                           radius: 64,
-                          backgroundColor: Colors.red,
                         )
                       : const CircleAvatar(
                           radius: 64,
                           backgroundImage: NetworkImage(
                               'https://i.stack.imgur.com/l60Hf.png'),
-                          backgroundColor: Colors.red,
                         ),
                   Positioned(
                     right: -10,
@@ -107,6 +117,12 @@ class _SignupScreenState extends State<SignupScreen> {
                 controller: _usernameController,
                 inputType: TextInputType.text,
                 hintText: 'User name',
+              ),
+              kVerticalSpaceSmall,
+              TextFieldInput(
+                controller: _fullnameController,
+                inputType: TextInputType.text,
+                hintText: 'Full name',
               ),
               kVerticalSpaceSmall,
               TextFieldInput(
