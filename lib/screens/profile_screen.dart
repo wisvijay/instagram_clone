@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../model/users.dart' as model;
+import '../model/user.dart' as model;
 import '../provider/user_provider.dart';
 import '../resources/auth_methods.dart';
 import '../utils/color.dart';

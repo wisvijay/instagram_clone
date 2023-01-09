@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:instagram_clone/resources/firestore_methods.dart';
 import 'package:provider/provider.dart';
 
 import '../dialog/showpopup_dialog.dart';
 import '../provider/user_provider.dart';
+import '../resources/firestore_methods.dart';
 import '../utils/utils.dart';
 import '../utils/color.dart';
 import '../utils/spaces.dart';
@@ -160,7 +160,7 @@ class _AddPostState extends State<AddPost> {
                               ),
                             ],
                           ),
-                          Divider(),
+                          const Divider(),
                         ],
                       ),
           );

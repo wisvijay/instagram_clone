@@ -4,6 +4,7 @@ import '/responsive/mobile_screen_layout.dart';
 import '/responsive/responsive_layout_screen.dart';
 import '/responsive/web_screen_layout.dart';
 import '/screens/addpost_screen.dart';
+import '/screens/comments_screen.dart';
 import '/screens/home_screen.dart';
 import '/screens/login_screen.dart';
 import '/screens/profile_screen.dart';
@@ -32,6 +33,12 @@ class RouterGenerator {
         return MaterialPageRoute(builder: (context) => const AddPost());
       case ProfileRouteName:
         return MaterialPageRoute(builder: (context) => const ProfileScreen());
+      case CommentsRouteName:
+        final arguments = settings.arguments as Map<String, String>;
+        return MaterialPageRoute(
+          builder: (context) =>
+              CommentsScreen(postId: arguments[PostId] as String),
+        );
       default:
         return MaterialPageRoute(
           builder: (context) => const ResponsiveLayoutScreen(
