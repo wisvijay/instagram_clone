@@ -10,11 +10,18 @@ class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
 
-  Future<model.User> getUserDetails() async {
+  Future<model.User> getCurrentUserDetails() async {
     User currentUser = _auth.currentUser!;
 
     DocumentSnapshot documentSnapshot =
         await _fireStore.collection(USERS).doc(currentUser.uid).get();
+
+    return model.User.fromSnapshot(documentSnapshot);
+  }
+
+  Future<model.User> getUserDetails(String uid) async {
+    DocumentSnapshot documentSnapshot =
+        await _fireStore.collection(USERS).doc(uid).get();
 
     return model.User.fromSnapshot(documentSnapshot);
   }
@@ -55,7 +62,7 @@ class AuthMethods {
             .collection(USERS)
             .doc(cred.user!.uid)
             .set(_users.toJson());
-        res = 'success';
+        res = Success;
       } else {
         res = 'Please enter all the fields';
       }
@@ -71,7 +78,7 @@ class AuthMethods {
       if (email.isNotEmpty || password.isNotEmpty) {
         await _auth.signInWithEmailAndPassword(
             email: email, password: password);
-        res = "success";
+        res = Success;
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-email') {

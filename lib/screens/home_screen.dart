@@ -43,7 +43,10 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: mobileBackgroundColor,
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection(POSTS).snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection(POSTS)
+            .orderBy(datePublishedFV, descending: true)
+            .snapshots(),
         builder: (context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -63,14 +66,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       const StoryRow(),
                       const Divider(),
                       PostCard(
-                          post: Post.fromSnapshot(
+                          post: Post.fromSingleSnapshot(
                               snapshot.data!.docs[index].data())),
                     ],
                   );
                 } else {
                   return PostCard(
-                      post:
-                          Post.fromSnapshot(snapshot.data!.docs[index].data()));
+                      post: Post.fromSingleSnapshot(
+                          snapshot.data!.docs[index].data()));
                 }
               },
             );

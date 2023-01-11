@@ -16,14 +16,15 @@ showSnackBar(BuildContext context, String content) {
 }
 
 String calculateTimeDifferenceBetween(DateTime startDate) {
-  int seconds = DateTime.now().difference(startDate).inSeconds;
+  DateTime endDate = DateTime.now();
+  int seconds = endDate.difference(startDate).inSeconds;
   if (seconds < 60) {
     return '$seconds second ago';
   } else if (seconds >= 60 && seconds < 3600) {
-    return '${startDate.difference(DateTime.now()).inMinutes.abs()} minutes ago';
+    return '${endDate.difference(startDate).inMinutes.abs()} minutes ago';
   } else if (seconds >= 3600 && seconds < 86400) {
-    return '${startDate.difference(DateTime.now()).inHours} hours ago';
+    return '${endDate.difference(startDate).inHours} hours ago';
   } else {
-    return '${startDate.difference(DateTime.now()).inDays} days ago';
+    return '${endDate.difference(startDate).inDays} days ago';
   }
 }

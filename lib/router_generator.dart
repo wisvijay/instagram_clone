@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/screens/search_screen.dart';
 
 import '/responsive/mobile_screen_layout.dart';
 import '/responsive/responsive_layout_screen.dart';
@@ -32,7 +33,13 @@ class RouterGenerator {
       case AddPostRouteName:
         return MaterialPageRoute(builder: (context) => const AddPost());
       case ProfileRouteName:
-        return MaterialPageRoute(builder: (context) => const ProfileScreen());
+        final arguments = settings.arguments as Map<String, String>;
+        return MaterialPageRoute(
+            builder: (context) => ProfileScreen(
+                  uid: arguments[UID] as String,
+                ));
+      case SearchRouteName:
+        return MaterialPageRoute(builder: (context) => const SearchScreen());
       case CommentsRouteName:
         final arguments = settings.arguments as Map<String, String>;
         return MaterialPageRoute(
@@ -40,12 +47,7 @@ class RouterGenerator {
               CommentsScreen(postId: arguments[PostId] as String),
         );
       default:
-        return MaterialPageRoute(
-          builder: (context) => const ResponsiveLayoutScreen(
-            weblayout: WebScreenLayout(),
-            mobilelayout: MobileScreenLayout(),
-          ),
-        );
+        return MaterialPageRoute(builder: (context) => const LoginScreen());
     }
   }
 }

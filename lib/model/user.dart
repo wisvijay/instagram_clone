@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:instagram_clone/utils/constants.dart';
 
 class User {
   final String username;
@@ -22,26 +23,38 @@ class User {
   });
 
   Map<String, dynamic> toJson() => {
-        "username": username,
-        "fullname": fullname,
-        "uid": uid,
-        "email": email,
-        "bio": bio,
-        "photoUrl": photoUrl,
-        "following": following,
-        "followers": followers
+        usernameFV: username,
+        fullnameFV: fullname,
+        uidFV: uid,
+        emailFV: email,
+        bioFV: bio,
+        photoUrlFV: photoUrl,
+        followingFV: following,
+        followersFV: followers
       };
 
   static User fromSnapshot(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
     return User(
-        username: snapshot["username"],
-        fullname: snapshot["fullname"],
-        uid: snapshot["uid"],
-        email: snapshot["email"],
-        bio: snapshot["bio"],
-        photoUrl: snapshot["photoUrl"],
-        following: snapshot["following"],
-        followers: snapshot["followers"]);
+        username: snapshot[usernameFV],
+        fullname: snapshot[fullnameFV],
+        uid: snapshot[uidFV],
+        email: snapshot[emailFV],
+        bio: snapshot[bioFV],
+        photoUrl: snapshot[photoUrlFV],
+        following: snapshot[followingFV],
+        followers: snapshot[followersFV]);
+  }
+
+  static User fromSingleSnapshot(Map<String, dynamic> snapshot) {
+    return User(
+        username: snapshot[usernameFV],
+        fullname: snapshot[fullnameFV],
+        uid: snapshot[uidFV],
+        email: snapshot[emailFV],
+        bio: snapshot[bioFV],
+        photoUrl: snapshot[photoUrlFV],
+        following: snapshot[followingFV],
+        followers: snapshot[followersFV]);
   }
 }

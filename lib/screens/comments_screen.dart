@@ -87,6 +87,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
             .collection(POSTS)
             .doc(widget.postId)
             .collection(COMMENTS)
+            .orderBy(commentedOnFV, descending: true)
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {

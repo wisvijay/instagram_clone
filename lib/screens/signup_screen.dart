@@ -7,6 +7,7 @@ import '../responsive/responsive_layout_screen.dart';
 import '../responsive/web_screen_layout.dart';
 import '../resources/auth_methods.dart';
 import '../utils/color.dart';
+import '../utils/constants.dart';
 import '../utils/utils.dart';
 import '../utils/spaces.dart';
 import '../widgets/text_field_input.dart';
@@ -41,13 +42,10 @@ class _SignupScreenState extends State<SignupScreen> {
       file: image!,
     );
 
-    if (res == "success") {
+    if (res == Success) {
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
-          builder: (context) => const ResponsiveLayoutScreen(
-            mobilelayout: MobileScreenLayout(),
-            weblayout: WebScreenLayout(),
-          ),
+          builder: (context) => const LoginScreen(),
         ),
         (route) => false,
       );

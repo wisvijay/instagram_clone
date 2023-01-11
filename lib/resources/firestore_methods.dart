@@ -11,7 +11,7 @@ class FireStoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<String> uploadPost(String description, Uint8List file, String uid,
-      String username, String profImage) async {
+      String username, String bio, String profImage) async {
     String res = "Some error occured!";
     try {
       String photoUrl =
@@ -21,6 +21,7 @@ class FireStoreMethods {
         description: description,
         uid: uid,
         username: username,
+        bio: bio,
         postId: postId,
         postUrl: photoUrl,
         profImg: profImage,
@@ -28,7 +29,7 @@ class FireStoreMethods {
         datePublished: DateTime.now(),
       );
       await _firestore.collection(POSTS).doc(postId).set(post.toJson());
-      res = "success";
+      res = Success;
     } catch (e) {
       res = e.toString();
     }
@@ -39,11 +40,11 @@ class FireStoreMethods {
     try {
       if (likes.contains(uid)) {
         await _firestore.collection(POSTS).doc(postId).update({
-          "likes": FieldValue.arrayRemove([uid]),
+          likesFV: FieldValue.arrayRemove([uid]),
         });
       } else {
         await _firestore.collection(POSTS).doc(postId).update({
-          "likes": FieldValue.arrayUnion([uid]),
+          likesFV: FieldValue.arrayUnion([uid]),
         });
       }
     } catch (e) {
@@ -71,7 +72,7 @@ class FireStoreMethods {
             .collection(COMMENTS)
             .doc(commentId)
             .set(comment.toJson());
-        res = "success";
+        res = Success;
       } else {
         res = "comment is empty";
       }
@@ -79,5 +80,59 @@ class FireStoreMethods {
       res = e.toString();
     }
     return res;
+  }
+
+  Future<int> getCommentsCount(String postId) async {
+    int commentCount = 0;
+    try {
+      QuerySnapshot querySnapshot = await _firestore
+          .collection(POSTS)
+          .doc(postId)
+          .collection(COMMENTS)
+          .get();
+      commentCount = querySnapshot.docs.length;
+    } catch (e) {
+      print(e.toString());
+    }
+
+    return commentCount;
+  }
+
+  Future<int> getPostsCount(String uid) async {
+    int postsCount = 0;
+    try {
+      QuerySnapshot querySnapshot =
+          await _firestore.collection(POSTS).where(uidFV, isEqualTo: uid).get();
+      postsCount = querySnapshot.docs.length;
+    } catch (e) {
+      print(e.toString());
+    }
+
+    return postsCount;
+  }
+
+  Future<void> followUser(
+      String uid, String followerUid, List following) async {
+    try {
+      if (following.contains(uid)) {
+        // Unfollow the user by reducing follower count from logged user and following count from current user
+        await _firestore.collection(USERS).doc(uid).update({
+          followingFV: FieldValue.arrayRemove([followerUid])
+        });
+
+        await _firestore.collection(USERS).doc(followerUid).update({
+          followersFV: FieldValue.arrayRemove([uid])
+        });
+      } else {
+        // Follow the user by adding follower count from logged user and following count from current user
+        await _firestore.collection(USERS).doc(uid).update({
+          followingFV: FieldValue.arrayUnion([followerUid])
+        });
+
+        await _firestore.collection(USERS).doc(followerUid).update({
+          followersFV: FieldValue.arrayUnion([uid])
+        });
+      }
+    } catch (e) {}
   }
 }

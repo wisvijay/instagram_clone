@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../dialog/showpopup_dialog.dart';
 import '../provider/user_provider.dart';
 import '../resources/firestore_methods.dart';
+import '../utils/constants.dart';
 import '../utils/utils.dart';
 import '../utils/color.dart';
 import '../utils/spaces.dart';
@@ -58,7 +59,8 @@ class _AddPostState extends State<AddPost> {
     );
   }
 
-  void postImage(String uid, String username, String profImage) async {
+  void postImage(
+      String uid, String username, String bio, String profImage) async {
     setState(() {
       isLoading = true;
     });
@@ -68,12 +70,13 @@ class _AddPostState extends State<AddPost> {
         file!,
         uid,
         username,
+        bio,
         profImage,
       );
       setState(() {
         isLoading = false;
       });
-      if (res == "success") {
+      if (res == Success) {
         showSnackBar(
           context,
           'Posted!',
@@ -118,6 +121,7 @@ class _AddPostState extends State<AddPost> {
                         onPressed: () => postImage(
                           userProvider.getUser.uid,
                           userProvider.getUser.username,
+                          userProvider.getUser.bio,
                           userProvider.getUser.photoUrl,
                         ),
                         icon: const Icon(Icons.check),

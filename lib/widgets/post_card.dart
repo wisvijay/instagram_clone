@@ -22,6 +22,8 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   bool _isAnimating = false;
+  int commentsCount = 0;
+  FireStoreMethods fireStoreMethods = FireStoreMethods();
 
   navigateToComments() {
     Navigator.of(context).pushNamed(
@@ -33,9 +35,19 @@ class _PostCardState extends State<PostCard> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    getCommentsCount();
+  }
+
+  getCommentsCount() async {
+    commentsCount = await fireStoreMethods.getCommentsCount(widget.post.postId);
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     modeluser.User user = Provider.of<UserProvider>(context).getUser;
-    FireStoreMethods fireStoreMethods = FireStoreMethods();
     return Container(
       color: mobileBackgroundColor,
       padding: const EdgeInsets.symmetric(vertical: 10),
@@ -57,9 +69,9 @@ class _PostCardState extends State<PostCard> {
                       widget.post.username,
                       style: const TextStyle(fontSize: 18),
                     ),
-                    const Text(
-                      'subtitle',
-                      style: TextStyle(fontSize: 12),
+                    Text(
+                      widget.post.bio,
+                      style: const TextStyle(fontSize: 12),
                     ),
                   ],
                 ),
@@ -171,9 +183,9 @@ class _PostCardState extends State<PostCard> {
                 //comments
                 InkWell(
                   onTap: navigateToComments,
-                  child: const Text(
-                    'View all 827 comments',
-                    style: TextStyle(color: Colors.grey),
+                  child: Text(
+                    'View all $commentsCount comments',
+                    style: const TextStyle(color: Colors.grey),
                   ),
                 ),
                 kVerticalSpaceTiny,

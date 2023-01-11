@@ -6,6 +6,7 @@ import '../responsive/mobile_screen_layout.dart';
 import '../responsive/responsive_layout_screen.dart';
 import '../responsive/web_screen_layout.dart';
 import '../utils/color.dart';
+import '../utils/constants.dart';
 import '../utils/spaces.dart';
 import '../utils/utils.dart';
 import '../widgets/text_field_input.dart';
@@ -30,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
     String res = await AuthMethods()
         .loginUser(_emailController.text, _passwordController.text);
 
-    if (res == "success") {
+    if (res == Success) {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
             builder: (context) => const ResponsiveLayoutScreen(
