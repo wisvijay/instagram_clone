@@ -43,3 +43,4 @@ const UID = "uid";
 
 //Connection Status
 const Success = "Success";
+const ErrorOccured = "Some error occured!";

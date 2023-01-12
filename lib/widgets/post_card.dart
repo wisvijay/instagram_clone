@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/model/post.dart';
 import 'package:instagram_clone/utils/constants.dart';
@@ -45,6 +44,12 @@ class _PostCardState extends State<PostCard> {
     setState(() {});
   }
 
+  deletePost() async {
+    Navigator.of(context).pop();
+    String res = await fireStoreMethods.deletePost(widget.post.postId);
+    showSnackBar(context, res);
+  }
+
   @override
   Widget build(BuildContext context) {
     modeluser.User user = Provider.of<UserProvider>(context).getUser;
@@ -77,7 +82,32 @@ class _PostCardState extends State<PostCard> {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => Dialog(
+                      elevation: 5,
+                      child: ListView(
+                        padding: const EdgeInsets.all(10),
+                        shrinkWrap: true,
+                        children: [
+                          if (user.uid == widget.post.uid)
+                            ListTile(
+                              onTap: deletePost,
+                              leading: const Icon(Icons.delete_forever),
+                              title: const Text('Delete Post'),
+                            ),
+                          if (user.uid != widget.post.uid)
+                            ListTile(
+                              onTap: () {},
+                              leading: const Icon(Icons.star_border),
+                              title: const Text('Add to Favorites'),
+                            )
+                        ],
+                      ),
+                    ),
+                  );
+                },
                 icon: const Icon(Icons.more_vert),
               ),
             ],
@@ -90,7 +120,7 @@ class _PostCardState extends State<PostCard> {
                 _isAnimating = true;
               });
               await fireStoreMethods.likePost(
-                  widget.post.postId, widget.post.uid, widget.post.likes);
+                  widget.post.postId, user.uid, widget.post.likes);
             },
             child: Stack(
               alignment: Alignment.center,
@@ -135,8 +165,8 @@ class _PostCardState extends State<PostCard> {
                       smallLike: true,
                       child: IconButton(
                         onPressed: () async {
-                          await fireStoreMethods.likePost(widget.post.postId,
-                              widget.post.uid, widget.post.likes);
+                          await fireStoreMethods.likePost(
+                              widget.post.postId, user.uid, widget.post.likes);
                         },
                         icon: widget.post.likes.contains(user.uid)
                             ? const Icon(

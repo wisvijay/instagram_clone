@@ -8,6 +8,7 @@ import '../resources/firestore_methods.dart';
 import '../utils/color.dart';
 import '../utils/constants.dart';
 import '../utils/spaces.dart';
+import '../widgets/follower_suggestion_card.dart';
 import '../widgets/profile_follow_button.dart';
 import 'login_screen.dart';
 
@@ -25,12 +26,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String currentUserId = FirebaseAuth.instance.currentUser!.uid;
   int postCount = 0;
   bool isLoading = true;
+  bool showFollowCard = false;
   late model_user.User user;
 
   @override
   void initState() {
     super.initState();
     getUserDetails();
+    showFollowCard = currentUserId == widget.uid;
   }
 
   void getUserDetails() async {
@@ -47,8 +50,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     await _fireStoreMethods.followUser(
       currentUserId,
       widget.uid,
-      user.following,
+      user.followers,
     );
+    user = await _authMethods.getUserDetails(widget.uid);
+    setState(() {});
   }
 
   void showPopMenu(BuildContext context) {
@@ -80,6 +85,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (context) => const LoginScreen()),
     );
+  }
+
+  showFollowCardOption() {
+    setState(() {
+      showFollowCard = !showFollowCard;
+    });
   }
 
   @override
@@ -142,10 +153,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 kVerticalSpaceMedium,
                 ProfileFollowButton(
                   isMyProfile: currentUserId == user.uid,
+                  isFollowing: user.followers.contains(currentUserId),
                   profileAction: editProfile,
                   followAction: followUsers,
+                  personAddAction: showFollowCardOption,
                 ),
                 const Divider(),
+                Visibility(
+                    visible: showFollowCard,
+                    child: const FollowerSuggestionCard()),
                 kVerticalSpaceSmall,
                 FutureBuilder(
                     future: FirebaseFirestore.instance

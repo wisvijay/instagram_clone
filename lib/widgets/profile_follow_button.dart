@@ -8,12 +8,14 @@ class ProfileFollowButton extends StatelessWidget {
   final bool isFollowing;
   final VoidCallback? profileAction;
   final VoidCallback? followAction;
+  final VoidCallback? personAddAction;
   const ProfileFollowButton({
     super.key,
     this.isMyProfile = false,
     this.profileAction,
     this.followAction,
     this.isFollowing = false,
+    this.personAddAction,
   });
 
   @override
@@ -35,7 +37,7 @@ class ProfileFollowButton extends StatelessWidget {
                   color: Colors.grey[900],
                   height: 40,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: personAddAction,
                     icon: const Icon(Icons.person_add),
                   ),
                 ),

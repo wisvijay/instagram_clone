@@ -10,7 +10,7 @@ import '../screens/profile_screen.dart';
 List<Widget> homeScreenItems = [
   const HomeScreen(),
   const SearchScreen(),
-  const ReelsScreen(),
+  ReelsScreen(),
   const NotificationScreen(),
   ProfileScreen(
     uid: FirebaseAuth.instance.currentUser!.uid,

@@ -34,7 +34,7 @@ class AuthMethods {
     required String bio,
     required Uint8List file,
   }) async {
-    var res = 'Some error occured';
+    var res = ErrorOccured;
     try {
       if (userName.isNotEmpty ||
           fullName.isNotEmpty ||
@@ -73,7 +73,7 @@ class AuthMethods {
   }
 
   Future<String> loginUser(String email, String password) async {
-    String res = "Some error occured";
+    String res = ErrorOccured;
     try {
       if (email.isNotEmpty || password.isNotEmpty) {
         await _auth.signInWithEmailAndPassword(

@@ -12,7 +12,7 @@ class FireStoreMethods {
 
   Future<String> uploadPost(String description, Uint8List file, String uid,
       String username, String bio, String profImage) async {
-    String res = "Some error occured!";
+    String res = ErrorOccured;
     try {
       String photoUrl =
           await StorageMethods().uploadImageToStorage(POSTS, file, true);
@@ -54,7 +54,7 @@ class FireStoreMethods {
 
   Future<String> commentPost(String postId, String uid, String username,
       String profImg, String commentText) async {
-    String res = "Some error Occured!";
+    String res = ErrorOccured;
     try {
       if (commentText.isNotEmpty) {
         String commentId = const Uuid().v1();
@@ -112,9 +112,9 @@ class FireStoreMethods {
   }
 
   Future<void> followUser(
-      String uid, String followerUid, List following) async {
+      String uid, String followerUid, List followers) async {
     try {
-      if (following.contains(uid)) {
+      if (followers.contains(uid)) {
         // Unfollow the user by reducing follower count from logged user and following count from current user
         await _firestore.collection(USERS).doc(uid).update({
           followingFV: FieldValue.arrayRemove([followerUid])
@@ -134,5 +134,16 @@ class FireStoreMethods {
         });
       }
     } catch (e) {}
+  }
+
+  Future<String> deletePost(String postId) async {
+    String res = ErrorOccured;
+    try {
+      await _firestore.collection(POSTS).doc(postId).delete();
+      res = Success;
+    } catch (e) {
+      res = e.toString();
+    }
+    return res;
   }
 }
