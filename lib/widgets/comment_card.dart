@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../model/comment.dart';
+import '../utils/constants.dart';
 import '../utils/utils.dart';
 import '../utils/spaces.dart';
 import '../widgets/like_animation.dart';
@@ -51,7 +52,7 @@ class _CommentCardState extends State<CommentCard> {
                   InkWell(
                     onTap: () {},
                     child: const Text(
-                      'Reply',
+                      replyStr,
                       style: TextStyle(color: Colors.grey),
                     ),
                   ),

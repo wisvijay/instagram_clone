@@ -66,7 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ListTile(
               leading: const Icon(Icons.logout),
               title: const Text(
-                'Sign out',
+                signOutStr,
                 style: TextStyle(fontSize: 18),
               ),
               onTap: signOut,
@@ -141,13 +141,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
                     //posts
-                    activityCount('Posts', postCount.toString()),
+                    activityCount(postsStr, postCount.toString()),
                     //followers
                     activityCount(
-                        'Followers', user.followers.length.toString()),
+                        followersStr, user.followers.length.toString()),
                     //following
                     activityCount(
-                        'Following', user.following.length.toString()),
+                        followingStr, user.following.length.toString()),
                   ],
                 ),
                 kVerticalSpaceMedium,

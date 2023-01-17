@@ -51,7 +51,7 @@ class ReelsScreen extends StatelessWidget {
                 const Padding(
                   padding: EdgeInsets.only(left: 8.0),
                   child: Text(
-                    'Reels',
+                    reelsStr,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
                   ),
                 ),

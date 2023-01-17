@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../utils/constants.dart';
+
 class ShowPopupDialog extends StatelessWidget {
   final Function()? takePhotoOption;
   final Function()? fromGalleryOption;
@@ -12,24 +14,24 @@ class ShowPopupDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      title: const Text('Create a Post'),
+      title: const Text(createPostStr),
       children: [
         SimpleDialogOption(
           padding: const EdgeInsets.all(20),
           onPressed: takePhotoOption,
-          child: const Text('Take a Photo'),
+          child: const Text(takeaPostStr),
         ),
         SimpleDialogOption(
           padding: const EdgeInsets.all(20),
           onPressed: fromGalleryOption,
-          child: const Text('Choose from Gallery'),
+          child: const Text(choosegalleryStr),
         ),
         SimpleDialogOption(
           padding: const EdgeInsets.all(20),
           onPressed: () {
             Navigator.pop(context);
           },
-          child: const Text('Cancel'),
+          child: const Text(cancelStr),
         )
       ],
     );

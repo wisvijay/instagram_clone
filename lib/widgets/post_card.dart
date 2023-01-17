@@ -95,13 +95,13 @@ class _PostCardState extends State<PostCard> {
                             ListTile(
                               onTap: deletePost,
                               leading: const Icon(Icons.delete_forever),
-                              title: const Text('Delete Post'),
+                              title: const Text(deletePostStr),
                             ),
                           if (user.uid != widget.post.uid)
                             ListTile(
                               onTap: () {},
                               leading: const Icon(Icons.star_border),
-                              title: const Text('Add to Favorites'),
+                              title: const Text(addFavStr),
                             )
                         ],
                       ),
@@ -201,7 +201,7 @@ class _PostCardState extends State<PostCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //likes
-                Text('${widget.post.likes.length} likes'),
+                Text('${widget.post.likes.length} $likesStr'),
                 kVerticalSpaceTiny,
                 //description
                 RichText(
@@ -214,7 +214,7 @@ class _PostCardState extends State<PostCard> {
                 InkWell(
                   onTap: navigateToComments,
                   child: Text(
-                    'View all $commentsCount comments',
+                    '$viewAllStr $commentsCount comments',
                     style: const TextStyle(color: Colors.grey),
                   ),
                 ),

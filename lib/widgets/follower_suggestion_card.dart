@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:faker_dart/faker_dart.dart';
 import 'package:instagram_clone/utils/spaces.dart';
 
+import '../utils/constants.dart';
+
 class FollowerSuggestionCard extends StatelessWidget {
   const FollowerSuggestionCard({super.key});
 
@@ -14,13 +16,13 @@ class FollowerSuggestionCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Text(
-              'Discover people',
+              discoverPplStr,
               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
             ),
             TextButton(
                 onPressed: () {},
                 child: const Text(
-                  'See all',
+                  seeAll,
                   style: TextStyle(color: Colors.blue),
                 ))
           ],
@@ -61,7 +63,7 @@ class FollowerSuggestionCard extends StatelessWidget {
                           Text(name),
                           kVerticalSpaceTiny,
                           Text(
-                            'followed by $followedBy',
+                            '$followedByStr $followedBy',
                             style: const TextStyle(color: Colors.grey),
                           ),
                           kVerticalSpaceTiny,
@@ -69,7 +71,7 @@ class FollowerSuggestionCard extends StatelessWidget {
                             onPressed: () {},
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.blue),
-                            child: const Text('Follow'),
+                            child: const Text(followStr),
                           )
                         ],
                       ),

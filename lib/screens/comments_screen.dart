@@ -35,7 +35,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
     modelUser.User user = Provider.of<UserProvider>(context).getUser;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Comments'),
+        title: const Text(commentsStr),
         backgroundColor: mobileBackgroundColor,
         centerTitle: false,
       ),
@@ -56,7 +56,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                 child: TextField(
                   controller: _commentsController,
                   decoration: const InputDecoration(
-                    hintText: 'Add your comments...',
+                    hintText: addCommentsStr,
                     border: InputBorder.none,
                   ),
                 ),
@@ -74,7 +74,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                   showSnackBar(context, res);
                 },
                 child: const Text(
-                  'Post',
+                  postStr,
                   style: TextStyle(color: Colors.blue, fontSize: 16),
                 ),
               ),
@@ -108,7 +108,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
           }
           return const Center(
             child: Text(
-              'No comments yet!',
+              noCommentsStr,
               style: TextStyle(fontSize: 24),
             ),
           );

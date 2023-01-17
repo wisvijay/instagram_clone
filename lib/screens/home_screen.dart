@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../model/post.dart';
 import '../utils/color.dart';
 import '../utils/constants.dart';
+import '../utils/images.dart';
 import '../utils/spaces.dart';
 import '../widgets/post_card.dart';
 import '../widgets/story_row.dart';
@@ -25,11 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: SvgPicture.asset(
-          'assets/instagram.svg',
-          height: 40,
-          color: primaryColor,
-        ),
+        title: AppImages.getLogo(40),
         actions: [
           IconButton(
             onPressed: addPost,
@@ -86,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
               StoryRow(),
               Divider(),
               Center(
-                child: Text('No Feeds!'),
+                child: Text(noFeedsStr),
               ),
             ],
           );

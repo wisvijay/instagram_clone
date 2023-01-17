@@ -79,7 +79,7 @@ class _AddPostState extends State<AddPost> {
       if (res == Success) {
         showSnackBar(
           context,
-          'Posted!',
+          postedStr,
         );
         Navigator.of(context).pop();
       } else {
@@ -113,7 +113,7 @@ class _AddPostState extends State<AddPost> {
         ? const Center(child: CircularProgressIndicator())
         : Scaffold(
             appBar: AppBar(
-              title: const Text('New Post'),
+              title: const Text(newPostStr),
               backgroundColor: mobileBackgroundColor,
               actions: isShowAction
                   ? [
@@ -156,7 +156,7 @@ class _AddPostState extends State<AddPost> {
                                 child: TextField(
                                   controller: _descriptionController,
                                   decoration: const InputDecoration(
-                                    hintText: "Write a caption...",
+                                    hintText: writeCaptionStr,
                                     border: InputBorder.none,
                                   ),
                                   maxLines: 6,

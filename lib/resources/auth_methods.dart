@@ -64,7 +64,7 @@ class AuthMethods {
             .set(_users.toJson());
         res = Success;
       } else {
-        res = 'Please enter all the fields';
+        res = fillAllDetailsStr;
       }
     } catch (e) {
       res = e.toString();
@@ -81,11 +81,10 @@ class AuthMethods {
         res = Success;
       }
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'invalid-email') {
-        res = "Please enter a valid email";
-      } else if (e.code == 'user-not-found') {
-        res =
-            "Email address or Password is Wrong! Please retry with valid credentials";
+      if (e.code == invalidEmail) {
+        res = enterValidEmailStr;
+      } else if (e.code == userNotFound) {
+        res = emailPasswordWrongStr;
       }
     } catch (e) {
       res = e.toString();

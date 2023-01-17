@@ -32,7 +32,7 @@ class _SearchScreenState extends State<SearchScreen> {
           title: TextFormField(
             controller: _searchController,
             decoration: const InputDecoration(
-              labelText: 'Search for a user',
+              labelText: searchAUserStr,
             ),
             onFieldSubmitted: (value) {
               setState(() {
@@ -59,7 +59,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     }
                     if (!snapshot.hasData) {
                       return const Center(
-                        child: Text('No User Found!'),
+                        child: Text(noUserFound),
                       );
                     }
                     return ListView.builder(
@@ -101,7 +101,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       );
                     }
                     return const Center(
-                      child: Text('Search users'),
+                      child: Text(searchUserStr),
                     );
                   },
                 ),

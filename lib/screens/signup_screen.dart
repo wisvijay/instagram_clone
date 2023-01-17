@@ -2,12 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../responsive/mobile_screen_layout.dart';
-import '../responsive/responsive_layout_screen.dart';
-import '../responsive/web_screen_layout.dart';
 import '../resources/auth_methods.dart';
 import '../utils/color.dart';
 import '../utils/constants.dart';
+import '../utils/images.dart';
 import '../utils/utils.dart';
 import '../utils/spaces.dart';
 import '../widgets/text_field_input.dart';
@@ -97,8 +95,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         )
                       : const CircleAvatar(
                           radius: 64,
-                          backgroundImage: NetworkImage(
-                              'https://i.stack.imgur.com/l60Hf.png'),
+                          backgroundImage: NetworkImage(AppImages.profileImg),
                         ),
                   Positioned(
                     right: -10,
@@ -114,32 +111,32 @@ class _SignupScreenState extends State<SignupScreen> {
               TextFieldInput(
                 controller: _usernameController,
                 inputType: TextInputType.text,
-                hintText: 'User name',
+                hintText: userNameStr,
               ),
               kVerticalSpaceSmall,
               TextFieldInput(
                 controller: _fullnameController,
                 inputType: TextInputType.text,
-                hintText: 'Full name',
+                hintText: fullNameStr,
               ),
               kVerticalSpaceSmall,
               TextFieldInput(
                 controller: _emailController,
                 inputType: TextInputType.emailAddress,
-                hintText: 'Email Address',
+                hintText: emailAddressStr,
               ),
               kVerticalSpaceSmall,
               TextFieldInput(
                 controller: _passwordController,
                 inputType: TextInputType.text,
-                hintText: 'Password',
+                hintText: passwordStr,
                 isPass: true,
               ),
               kVerticalSpaceSmall,
               TextFieldInput(
                 controller: _bioController,
                 inputType: TextInputType.text,
-                hintText: 'Bio',
+                hintText: bioStr,
               ),
               kVerticalSpaceSmall,
               InkWell(
@@ -159,14 +156,14 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                           color: blueColor,
                         ),
-                        child: const Text('SignUp'),
+                        child: const Text(signUpStr),
                       ),
               ),
               kVerticalSpaceLarge,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Already having an account?'),
+                  const Text(alreadyHavingAccountStr),
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).pushReplacement(
@@ -174,7 +171,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             builder: (context) => const LoginScreen()),
                       );
                     },
-                    child: const Text('SignIn'),
+                    child: const Text(signInStr),
                   ),
                 ],
               ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../resources/auth_methods.dart';
 import '../responsive/mobile_screen_layout.dart';
@@ -7,6 +6,7 @@ import '../responsive/responsive_layout_screen.dart';
 import '../responsive/web_screen_layout.dart';
 import '../utils/color.dart';
 import '../utils/constants.dart';
+import '../utils/images.dart';
 import '../utils/spaces.dart';
 import '../utils/utils.dart';
 import '../widgets/text_field_input.dart';
@@ -71,22 +71,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 flex: 2,
                 child: Container(),
               ),
-              SvgPicture.asset(
-                'assets/instagram.svg',
-                height: 64,
-                color: primaryColor,
-              ),
+              AppImages.getLogo(64),
               kVerticalSpaceLarge,
               TextFieldInput(
                 controller: _emailController,
                 inputType: TextInputType.emailAddress,
-                hintText: 'Email Address',
+                hintText: emailAddressStr,
               ),
               kVerticalSpaceSmall,
               TextFieldInput(
                 controller: _passwordController,
                 inputType: TextInputType.text,
-                hintText: 'Password',
+                hintText: passwordStr,
                 isPass: true,
               ),
               kVerticalSpaceSmall,
@@ -107,14 +103,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           color: blueColor,
                         ),
-                        child: const Text('LogIn'),
+                        child: const Text(loginStr),
                       ),
               ),
               kVerticalSpaceLarge,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Don\'t have account yet?'),
+                  const Text(haveAccountStr),
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).pushReplacement(
@@ -122,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             builder: (context) => const SignupScreen()),
                       );
                     },
-                    child: const Text('SignUp'),
+                    child: const Text(signUpStr),
                   ),
                 ],
               ),

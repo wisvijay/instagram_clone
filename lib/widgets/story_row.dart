@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../utils/color.dart';
+import '../utils/constants.dart';
+import '../utils/images.dart';
 import '../utils/spaces.dart';
 
 class StoryRow extends StatelessWidget {
@@ -15,8 +17,7 @@ class StoryRow extends StatelessWidget {
             Stack(
               children: [
                 const CircleAvatar(
-                  foregroundImage:
-                      NetworkImage('https://i.stack.imgur.com/l60Hf.png'),
+                  foregroundImage: NetworkImage(AppImages.profileImg),
                   radius: 35,
                 ),
                 Positioned(
@@ -35,7 +36,7 @@ class StoryRow extends StatelessWidget {
             ),
             kVerticalSpaceTiny,
             const Text(
-              'Your story',
+              yourStoryStr,
               style: TextStyle(
                 fontSize: 16,
                 color: primaryColor,
@@ -48,13 +49,12 @@ class StoryRow extends StatelessWidget {
         Column(
           children: const [
             CircleAvatar(
-              foregroundImage: NetworkImage(
-                  'https://cdn.pixabay.com/photo/2016/07/05/16/53/leaves-1498985__340.jpg'),
+              foregroundImage: NetworkImage(AppImages.storyImg),
               radius: 35,
             ),
             kVerticalSpaceTiny,
             Text(
-              'Vijay',
+              storyUsernameStr,
               style: TextStyle(fontSize: 16, color: primaryColor),
               textAlign: TextAlign.center,
             ),

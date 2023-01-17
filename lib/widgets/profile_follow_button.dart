@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/utils/color.dart';
 
+import '../utils/constants.dart';
 import '../utils/spaces.dart';
 
 class ProfileFollowButton extends StatelessWidget {
@@ -28,7 +29,7 @@ class ProfileFollowButton extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey[900],
                     minimumSize: Size(kScreenWidth(context) * 0.86, 40)),
-                child: const Text('Edit profile'),
+                child: const Text(editProfileStr),
               ),
               kHorizontalSpaceTiny,
               ClipRRect(
@@ -57,8 +58,8 @@ class ProfileFollowButton extends StatelessWidget {
                         backgroundColor: Colors.blue,
                         foregroundColor: primaryColor),
                     child: isFollowing
-                        ? const Text('Unfollow')
-                        : const Text('Follow'),
+                        ? const Text(unFollowStr)
+                        : const Text(followStr),
                   ),
                 ),
                 if (isFollowing) kHorizontalSpaceSmall,
@@ -69,7 +70,7 @@ class ProfileFollowButton extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey[900],
                       ),
-                      child: const Text('Message'),
+                      child: const Text(messageStr),
                     ),
                   ),
               ],

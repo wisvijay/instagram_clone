@@ -74,7 +74,7 @@ class FireStoreMethods {
             .set(comment.toJson());
         res = Success;
       } else {
-        res = "comment is empty";
+        res = commentEmptyStr;
       }
     } catch (e) {
       res = e.toString();
